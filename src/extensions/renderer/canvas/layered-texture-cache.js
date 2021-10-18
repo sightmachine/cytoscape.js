@@ -31,7 +31,7 @@ var LayeredTextureCache = function( renderer ){
   var cy = r.cy;
 
   self.layersByLevel = {}; // e.g. 2 => [ layer1, layer2, ..., layerN ]
-
+  self.bb = null;
   self.firstGet = true;
 
   self.lastInvalidationTime = util.performanceNow() - 2*invalidThreshold;
@@ -129,7 +129,6 @@ LTCp.getLayers = function( eles, pxRatio, lvl ){
   var layersByLvl = self.layersByLevel;
   var scale = Math.pow( 2, lvl );
   var layers = layersByLvl[ lvl ] = layersByLvl[ lvl ] || [];
-  var bb;
 
   var lvlComplete = self.levelIsComplete( lvl, eles );
   var tmpLayers;
@@ -177,15 +176,15 @@ LTCp.getLayers = function( eles, pxRatio, lvl ){
   }
 
   var getBb = function(){
-    if( !bb ){
-      bb = math.makeBoundingBox();
+    if( !self.bb ){
+      self.bb = math.makeBoundingBox();
 
       for( var i = 0; i < eles.length; i++ ){
-        math.updateBoundingBox( bb, eles[i].boundingBox() );
+        math.updateBoundingBox(self.bb, eles[i].boundingBox() );
       }
     }
 
-    return bb;
+    return self.bb;
   };
 
   var makeLayer = function( opts ){
@@ -193,7 +192,7 @@ LTCp.getLayers = function( eles, pxRatio, lvl ){
 
     var after = opts.after;
 
-    getBb();
+    const bb = getBb();
 
     var area = ( bb.w * scale ) * ( bb.h * scale );
 
