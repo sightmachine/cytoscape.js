@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019, The Cytoscape Consortium.
+ * Copyright (c) 2016-2019, 2021, The Cytoscape Consortium.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the “Software”), to deal in
@@ -23,97 +23,9 @@
 import util from 'lodash.debounce';
 import Heap from 'heap';
 
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArrayLimit(arr, i) {
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
-
 var window$1 = typeof window === 'undefined' ? null : window; // eslint-disable-line no-undef
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 var navigator = window$1 ? window$1.navigator : null;
 var document$1 = window$1 ? window$1.document : null;
 
@@ -909,10 +821,14 @@ var setPrefixedProperty = function setPrefixedProperty(obj, propName, prefix, va
   obj[propName] = value;
 };
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /* global Map */
-var ObjectMap =
-/*#__PURE__*/
-function () {
+var ObjectMap = /*#__PURE__*/function () {
   function ObjectMap() {
     _classCallCheck(this, ObjectMap);
 
@@ -953,14 +869,20 @@ function () {
 
 var Map$1 = typeof Map !== 'undefined' ? Map : ObjectMap;
 
+function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$1(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$1(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$1(Constructor.prototype, protoProps); if (staticProps) _defineProperties$1(Constructor, staticProps); return Constructor; }
+
+function _typeof$1(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$1 = function _typeof(obj) { return typeof obj; }; } else { _typeof$1 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$1(obj); }
+
 /* global Set */
 var undef = "undefined";
 
-var ObjectSet =
-/*#__PURE__*/
-function () {
+var ObjectSet = /*#__PURE__*/function () {
   function ObjectSet(arrayOrObjectSet) {
-    _classCallCheck(this, ObjectSet);
+    _classCallCheck$1(this, ObjectSet);
 
     this._obj = Object.create(null);
     this.size = 0;
@@ -980,7 +902,7 @@ function () {
     }
   }
 
-  _createClass(ObjectSet, [{
+  _createClass$1(ObjectSet, [{
     key: "instanceString",
     value: function instanceString() {
       return 'set';
@@ -1034,7 +956,7 @@ function () {
   return ObjectSet;
 }();
 
-var Set$1 = (typeof Set === "undefined" ? "undefined" : _typeof(Set)) !== undef ? Set : ObjectSet;
+var Set$1 = (typeof Set === "undefined" ? "undefined" : _typeof$1(Set)) !== undef ? Set : ObjectSet;
 
 var Element = function Element(cy, params, restore) {
   restore = restore === undefined || restore ? true : false;
@@ -1132,9 +1054,9 @@ var Element = function Element(cy, params, restore) {
     // cache of the current bounding box
     bbCacheShift: {
       x: 0,
-      y: 0 // shift applied to cached bb to be applied on next get
+      y: 0
+    } // shift applied to cached bb to be applied on next get
 
-    }
   };
 
   if (_p.position.x == null) {
@@ -1236,7 +1158,7 @@ var defineSearch = function defineSearch(params) {
       }
     }
 
-    var _loop2 = function _loop2() {
+    var _loop = function _loop() {
       var v = params.bfs ? Q.shift() : Q.pop();
       var vId = v.id();
 
@@ -1292,16 +1214,11 @@ var defineSearch = function defineSearch(params) {
       }
     };
 
-    _loop: while (Q.length !== 0) {
-      var _ret = _loop2();
+    while (Q.length !== 0) {
+      var _ret = _loop();
 
-      switch (_ret) {
-        case "continue":
-          continue;
-
-        case "break":
-          break _loop;
-      }
+      if (_ret === "continue") continue;
+      if (_ret === "break") break;
     }
 
     var connectedEles = cy.collection();
@@ -1578,7 +1495,7 @@ var elesfn$3 = {
     var popFromOpenSet = function popFromOpenSet() {
       cMin = openSet.pop();
       cMinId = cMin.id();
-      openSetIds.delete(cMinId);
+      openSetIds["delete"](cMinId);
     };
 
     var isInOpenSet = function isInOpenSet(id) {
@@ -4065,6 +3982,7 @@ function clusteringDistance (method, length, getP, getQ, nodeP, nodeQ) {
   }
 }
 
+function _typeof$2(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$2 = function _typeof(obj) { return typeof obj; }; } else { _typeof$2 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$2(obj); }
 var defaults$5 = defaults({
   k: 2,
   m: 2,
@@ -4232,7 +4150,7 @@ var kMeans = function kMeans(options) {
       // TODO: implement a seeded random number generator.
       var seed = opts.testCentroids;
       centroids = randomCentroids(nodes, opts.k, opts.attributes, seed);
-    } else if (_typeof(opts.testCentroids) === 'object') {
+    } else if (_typeof$2(opts.testCentroids) === 'object') {
       centroids = opts.testCentroids;
     } else {
       centroids = randomCentroids(nodes, opts.k, opts.attributes);
@@ -4310,7 +4228,7 @@ var kMedoids = function kMedoids(options) {
   // Step 1: Initialize k medoids
 
   if (opts.testMode) {
-    if (typeof opts.testCentroids === 'number') ; else if (_typeof(opts.testCentroids) === 'object') {
+    if (typeof opts.testCentroids === 'number') ; else if (_typeof$2(opts.testCentroids) === 'object') {
       medoids = opts.testCentroids;
     } else {
       medoids = randomMedoids(nodes, opts.k);
@@ -5184,6 +5102,8 @@ var elesfn$b = {};
   extend(elesfn$b, props);
 });
 
+function _typeof$3(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$3 = function _typeof(obj) { return typeof obj; }; } else { _typeof$3 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$3(obj); }
+
 /*!
 Embeddable Minimum Strictly-Compliant Promises/A+ 1.1.1 Thenable
 Copyright (c) 2013-2014 Ralf S. Engelschall (http://engelschall.com)
@@ -5326,22 +5246,22 @@ var resolver = function resolver(cb, next, method) {
       next[method].call(next, value);
       /*  [Promises/A+ 2.2.7.3, 2.2.7.4]  */
     else {
-        var result;
+      var result;
 
-        try {
-          result = cb(value);
-        }
-        /*  [Promises/A+ 2.2.2.1, 2.2.3.1, 2.2.5, 3.2]  */
-        catch (e) {
-          next.reject(e);
-          /*  [Promises/A+ 2.2.7.2]  */
-
-          return;
-        }
-
-        resolve(next, result);
-        /*  [Promises/A+ 2.2.7.1]  */
+      try {
+        result = cb(value);
       }
+      /*  [Promises/A+ 2.2.2.1, 2.2.3.1, 2.2.5, 3.2]  */
+      catch (e) {
+        next.reject(e);
+        /*  [Promises/A+ 2.2.7.2]  */
+
+        return;
+      }
+
+      resolve(next, result);
+      /*  [Promises/A+ 2.2.7.1]  */
+    }
   };
 };
 /*  "Promise Resolution Procedure"  */
@@ -5363,7 +5283,7 @@ var resolve = function resolve(promise, x) {
 
   var then;
 
-  if (_typeof(x) === 'object' && x !== null || typeof x === 'function') {
+  if (_typeof$3(x) === 'object' && x !== null || typeof x === 'function') {
     try {
       then = x.then;
     }
@@ -5950,6 +5870,7 @@ var define = {
 
 }; // define
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var define$1 = {
   // access data field
   data: function data(params) {
@@ -6269,7 +6190,7 @@ var elesfn$d = {
           eleClasses.add(cls);
           changedNow = true;
         } else if (!toggle || toggleUndefd && hasClass) {
-          eleClasses.delete(cls);
+          eleClasses["delete"](cls);
           changedNow = true;
         }
 
@@ -6623,6 +6544,17 @@ var stateSelectorRegex = '(' + stateSelectors.map(function (s) {
   return s.selector;
 }).join('|') + ')';
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 // so that values get compared properly in Selector.filter()
 
 var cleanMetaChars = function cleanMetaChars(str) {
@@ -9617,33 +9549,21 @@ var defaults$8 = {
   qualifierCompare: function qualifierCompare(q1, q2) {
     return q1 === q2;
   },
-  eventMatches: function eventMatches()
-  /*context, listener, eventObj*/
-  {
+  eventMatches: function eventMatches() {
     return true;
   },
-  addEventFields: function addEventFields()
-  /*context, evt*/
-  {},
+  addEventFields: function addEventFields() {},
   callbackContext: function callbackContext(context
   /*, listener, eventObj*/
   ) {
     return context;
   },
-  beforeEmit: function beforeEmit()
-  /* context, listener, eventObj */
-  {},
-  afterEmit: function afterEmit()
-  /* context, listener, eventObj */
-  {},
-  bubble: function bubble()
-  /*context*/
-  {
+  beforeEmit: function beforeEmit() {},
+  afterEmit: function afterEmit() {},
+  bubble: function bubble() {
     return false;
   },
-  parent: function parent()
-  /*context*/
-  {
+  parent: function parent() {
     return null;
   },
   context: null
@@ -10231,7 +10151,7 @@ var elesfn$m = {
     var map = _p.map; // remove ele
 
     this[i] = undefined;
-    map.delete(id);
+    map["delete"](id);
     var unmergedLastEle = i === this.length - 1; // replace empty spot with last ele in collection
 
     if (this.length > 1 && !unmergedLastEle) {
@@ -11187,42 +11107,42 @@ function defineSwitchFunction(params) {
       this.on(params.event, data, handler);
     } // e.g. cy.nodes().select( handler )
     else if (args.length === 1) {
-        var _handler = args[0];
-        this.on(params.event, _handler);
-      } // e.g. cy.nodes().select()
-      else if (args.length === 0) {
-          for (var i = 0; i < this.length; i++) {
-            var ele = this[i];
-            var able = !params.ableField || ele._private[params.ableField];
-            var changed = ele._private[params.field] != params.value;
+      var _handler = args[0];
+      this.on(params.event, _handler);
+    } // e.g. cy.nodes().select()
+    else if (args.length === 0) {
+      for (var i = 0; i < this.length; i++) {
+        var ele = this[i];
+        var able = !params.ableField || ele._private[params.ableField];
+        var changed = ele._private[params.field] != params.value;
 
-            if (params.overrideAble) {
-              var overrideAble = params.overrideAble(ele);
+        if (params.overrideAble) {
+          var overrideAble = params.overrideAble(ele);
 
-              if (overrideAble !== undefined) {
-                able = overrideAble;
+          if (overrideAble !== undefined) {
+            able = overrideAble;
 
-                if (!overrideAble) {
-                  return this;
-                } // to save cycles assume not able for all on override
+            if (!overrideAble) {
+              return this;
+            } // to save cycles assume not able for all on override
 
-              }
-            }
-
-            if (able) {
-              ele._private[params.field] = params.value;
-
-              if (changed) {
-                changedEles.push(ele);
-              }
-            }
           }
-
-          var changedColl = this.spawn(changedEles);
-          changedColl.updateStyle(); // change of state => possible change of style
-
-          changedColl.emit(params.event);
         }
+
+        if (able) {
+          ele._private[params.field] = params.value;
+
+          if (changed) {
+            changedEles.push(ele);
+          }
+        }
+      }
+
+      var changedColl = this.spawn(changedEles);
+      changedColl.updateStyle(); // change of state => possible change of style
+
+      changedColl.emit(params.event);
+    }
 
     return this;
   };
@@ -12535,35 +12455,35 @@ var corefn = {
       }
     } // specify an array of options
     else if (array(opts)) {
-        var _jsons = opts;
-        elements = new Collection(cy, _jsons);
-      } // specify via opts.nodes and opts.edges
-      else if (plainObject(opts) && (array(opts.nodes) || array(opts.edges))) {
-          var elesByGroup = opts;
-          var _jsons2 = [];
-          var grs = ['nodes', 'edges'];
+      var _jsons = opts;
+      elements = new Collection(cy, _jsons);
+    } // specify via opts.nodes and opts.edges
+    else if (plainObject(opts) && (array(opts.nodes) || array(opts.edges))) {
+      var elesByGroup = opts;
+      var _jsons2 = [];
+      var grs = ['nodes', 'edges'];
 
-          for (var _i = 0, il = grs.length; _i < il; _i++) {
-            var group = grs[_i];
-            var elesArray = elesByGroup[group];
+      for (var _i = 0, il = grs.length; _i < il; _i++) {
+        var group = grs[_i];
+        var elesArray = elesByGroup[group];
 
-            if (array(elesArray)) {
-              for (var j = 0, jl = elesArray.length; j < jl; j++) {
-                var json = extend({
-                  group: group
-                }, elesArray[j]);
+        if (array(elesArray)) {
+          for (var j = 0, jl = elesArray.length; j < jl; j++) {
+            var json = extend({
+              group: group
+            }, elesArray[j]);
 
-                _jsons2.push(json);
-              }
-            }
+            _jsons2.push(json);
           }
+        }
+      }
 
-          elements = new Collection(cy, _jsons2);
-        } // specify options for one element
-        else {
-            var _json = opts;
-            elements = new Element(cy, _json).collection();
-          }
+      elements = new Collection(cy, _jsons2);
+    } // specify options for one element
+    else {
+      var _json = opts;
+      elements = new Element(cy, _json).collection();
+    }
 
     return elements;
   },
@@ -13893,7 +13813,7 @@ styfn.applyContextStyle = function (cxtMeta, cxtStyle, ele) {
       } else {
         cxtProp = {
           name: diffPropName,
-          delete: true
+          "delete": true
         };
       }
     } // save cycles when the context prop doesn't need to be applied
@@ -14099,7 +14019,7 @@ styfn.applyParsedProperty = function (ele, parsedProp) {
     prop = parsedProp = this.parse(parsedProp.name, 'bezier', propIsBypass);
   }
 
-  if (prop.delete) {
+  if (prop["delete"]) {
     // delete the property and use the default value on falsey value
     style$$1[prop.name] = undefined;
     checkTriggers();
@@ -15398,7 +15318,8 @@ var styfn$6 = {};
       enums: ['linear', 'ease', 'ease-in', 'ease-out', 'ease-in-out', 'ease-in-sine', 'ease-out-sine', 'ease-in-out-sine', 'ease-in-quad', 'ease-out-quad', 'ease-in-out-quad', 'ease-in-cubic', 'ease-out-cubic', 'ease-in-out-cubic', 'ease-in-quart', 'ease-out-quart', 'ease-in-out-quart', 'ease-in-quint', 'ease-out-quint', 'ease-in-out-quint', 'ease-in-expo', 'ease-out-expo', 'ease-in-out-expo', 'ease-in-circ', 'ease-out-circ', 'ease-in-out-circ']
     },
     gradientDirection: {
-      enums: ['to-bottom', 'to-top', 'to-left', 'to-right', 'to-bottom-right', 'to-bottom-left', 'to-top-right', 'to-top-left', 'to-right-bottom', 'to-left-bottom', 'to-right-top', 'to-left-top']
+      enums: ['to-bottom', 'to-top', 'to-left', 'to-right', 'to-bottom-right', 'to-bottom-left', 'to-top-right', 'to-top-left', 'to-right-bottom', 'to-left-bottom', 'to-right-top', 'to-left-top' // different order
+      ]
     }
   };
   var diff = {
@@ -15933,7 +15854,7 @@ var styfn$6 = {};
       });
     });
   }, {});
-  var props = styfn$6.properties = behavior.concat(transition, visibility, overlay, ghost, commonLabel, labelDimensions, mainLabel, sourceLabel, targetLabel, nodeBody, nodeBorder, backgroundImage, pie, compound, edgeLine, edgeArrow, core$$1);
+  var props = styfn$6.properties = [].concat(behavior, transition, visibility, overlay, ghost, commonLabel, labelDimensions, mainLabel, sourceLabel, targetLabel, nodeBody, nodeBorder, backgroundImage, pie, compound, edgeLine, edgeArrow, core$$1);
   var propGroups = styfn$6.propertyGroups = {
     // common to all eles
     behavior: behavior,
@@ -16423,8 +16344,8 @@ styfn$7.parseImpl = function (name, value, propIsBypass, propIsFlat) {
       && c1[2] === c2[2] // blue
       && ( // optional alpha
       c1[3] === c2[3] // same alpha outright
-      || (c1[3] == null || c1[3] === 1) && ( // full opacity for colour 1?
-      c2[3] == null || c2[3] === 1) // full opacity for colour 2?
+      || (c1[3] == null || c1[3] === 1 // full opacity for colour 1?
+      ) && (c2[3] == null || c2[3] === 1) // full opacity for colour 2?
       );
 
       if (same) {
@@ -19208,8 +19129,7 @@ CoseLayout.prototype.run = function () {
             var fy = options.gravity * dy / d;
             node.offsetX += fx;
             node.offsetY += fy; // s += ": Applied force: " + fx + ", " + fy;
-          } // s += ": skypped since it's too close to center";
-            // logDebug(s);
+          } // logDebug(s);
 
         }
       }
@@ -20067,29 +19987,29 @@ GridLayout.prototype.run = function () {
     } // otherwise use the automatic values and adjust accordingly
     // if rounding was up, see if we can reduce rows or columns
     else if (cols * rows > cells) {
-        var sm = small();
-        var lg = large(); // reducing the small side takes away the most cells, so try it first
+      var sm = small();
+      var lg = large(); // reducing the small side takes away the most cells, so try it first
 
-        if ((sm - 1) * lg >= cells) {
-          small(sm - 1);
-        } else if ((lg - 1) * sm >= cells) {
-          large(lg - 1);
-        }
-      } else {
-        // if rounding was too low, add rows or columns
-        while (cols * rows < cells) {
-          var _sm = small();
+      if ((sm - 1) * lg >= cells) {
+        small(sm - 1);
+      } else if ((lg - 1) * sm >= cells) {
+        large(lg - 1);
+      }
+    } else {
+      // if rounding was too low, add rows or columns
+      while (cols * rows < cells) {
+        var _sm = small();
 
-          var _lg = large(); // try to add to larger side first (adds less in multiplication)
+        var _lg = large(); // try to add to larger side first (adds less in multiplication)
 
 
-          if ((_lg + 1) * _sm >= cells) {
-            large(_lg + 1);
-          } else {
-            small(_sm + 1);
-          }
+        if ((_lg + 1) * _sm >= cells) {
+          large(_lg + 1);
+        } else {
+          small(_sm + 1);
         }
       }
+    }
 
     var cellWidth = bb.w / cols;
     var cellHeight = bb.h / rows;
@@ -20754,13 +20674,13 @@ BRp$1.findNearestElements = function (x, y, interactiveElementsOnly, isTouch) {
     if (pos.x - hw <= x && x <= pos.x + hw // bb check x
     && pos.y - hh <= y && y <= pos.y + hh // bb check y
     ) {
-        var shape = r.nodeShapes[self.getNodeShape(node)];
+      var shape = r.nodeShapes[self.getNodeShape(node)];
 
-        if (shape.checkPoint(x, y, 0, width, height, pos.x, pos.y)) {
-          addEle(node, 0);
-          return true;
-        }
+      if (shape.checkPoint(x, y, 0, width, height, pos.x, pos.y)) {
+        addEle(node, 0);
+        return true;
       }
+    }
   }
 
   function checkEdge(edge) {
@@ -22233,8 +22153,8 @@ BRp$6.recalculateEdgeLabelProjections = function (edge) {
   };
 
   if (content.mid || content.source || content.target) ; else {
-      return; // no labels => no calcs
-    } // add center point to style so bounding box calculations can use it
+    return; // no labels => no calcs
+  } // add center point to style so bounding box calculations can use it
   //
 
 
@@ -23791,8 +23711,8 @@ BRp$c.load = function () {
       r.hoverData.which = null;
     } else if (r.hoverData.which === 1) {
       // Deselect all elements if nothing is currently under the mouse cursor and we aren't dragging something
-      if (down == null && // not mousedown on node
-      !r.dragData.didDrag // didn't move the node around
+      if (down == null // not mousedown on node
+      && !r.dragData.didDrag // didn't move the node around
       && !r.hoverData.selecting // not box selection
       && !r.hoverData.dragged // didn't pan
       && !isMultSelKeyDown(e)) {
@@ -23815,11 +23735,11 @@ BRp$c.load = function () {
       && !r.hoverData.selecting // not box selection
       && !r.hoverData.isOverThresholdDrag // didn't move too much
       ) {
-          triggerEvents(down, ['click', 'tap', 'vclick'], e, {
-            x: pos[0],
-            y: pos[1]
-          });
-        } // Single selection
+        triggerEvents(down, ['click', 'tap', 'vclick'], e, {
+          x: pos[0],
+          y: pos[1]
+        });
+      } // Single selection
 
 
       if (near == down && !r.dragData.didDrag && !r.hoverData.selecting) {
@@ -24204,11 +24124,11 @@ BRp$c.load = function () {
         if (r.touchData.singleTouchMoved === false && !r.pinching // if pinching, then taphold unselect shouldn't take effect
         && !r.touchData.selecting // box selection shouldn't allow taphold through
         ) {
-            triggerEvents(r.touchData.start, ['taphold'], e, {
-              x: now$$1[0],
-              y: now$$1[1]
-            });
-          }
+          triggerEvents(r.touchData.start, ['taphold'], e, {
+            x: now$$1[0],
+            y: now$$1[1]
+          });
+        }
       }, r.tapholdDuration);
     }
 
@@ -24841,19 +24761,19 @@ BRp$c.load = function () {
       if (start != null && !r.dragData.didDrag // didn't drag nodes around
       && start._private.selectable && rdist2 < r.touchTapThreshold2 && !r.pinching // pinch to zoom should not affect selection
       ) {
-          if (cy.selectionType() === 'single') {
-            cy.$(isSelected).unmerge(start).unselect();
-            start.select();
+        if (cy.selectionType() === 'single') {
+          cy.$(isSelected).unmerge(start).unselect();
+          start.select();
+        } else {
+          if (start.selected()) {
+            start.unselect();
           } else {
-            if (start.selected()) {
-              start.unselect();
-            } else {
-              start.select();
-            }
+            start.select();
           }
+        }
 
-          r.redrawHint('eles', true);
-        } // Tap event, roughly same as mouse click event for touch
+        r.redrawHint('eles', true);
+      } // Tap event, roughly same as mouse click event for touch
 
 
       if (!r.touchData.singleTouchMoved) {
@@ -25761,15 +25681,18 @@ var defs = {
   }
 };
 
+function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$2(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$2(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$2(Constructor.prototype, protoProps); if (staticProps) _defineProperties$2(Constructor, staticProps); return Constructor; }
 // Uses keys so elements may share the same cache.
 
-var ElementTextureCacheLookup =
-/*#__PURE__*/
-function () {
+var ElementTextureCacheLookup = /*#__PURE__*/function () {
   function ElementTextureCacheLookup(getKey) {
     var doesEleInvalidateKey = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : falsify;
 
-    _classCallCheck(this, ElementTextureCacheLookup);
+    _classCallCheck$2(this, ElementTextureCacheLookup);
 
     this.idsByKey = new Map$1();
     this.keyForId = new Map$1();
@@ -25779,7 +25702,7 @@ function () {
     this.doesEleInvalidateKey = doesEleInvalidateKey;
   }
 
-  _createClass(ElementTextureCacheLookup, [{
+  _createClass$2(ElementTextureCacheLookup, [{
     key: "getIdsFor",
     value: function getIdsFor(key) {
       if (key == null) {
@@ -25807,7 +25730,7 @@ function () {
     key: "deleteIdForKey",
     value: function deleteIdForKey(key, id) {
       if (key != null) {
-        this.getIdsFor(key).delete(id);
+        this.getIdsFor(key)["delete"](id);
       }
     }
   }, {
@@ -25835,7 +25758,7 @@ function () {
       var id = ele.id();
       var prevKey = this.keyForId.get(id);
       this.deleteIdForKey(prevKey, id);
-      this.keyForId.delete(id);
+      this.keyForId["delete"](id);
     }
   }, {
     key: "keyHasChangedFor",
@@ -25917,7 +25840,7 @@ function () {
   }, {
     key: "deleteCache",
     value: function deleteCache(key, lvl) {
-      this.getCachesAt(lvl).delete(key);
+      this.getCachesAt(lvl)["delete"](key);
     }
   }, {
     key: "delete",
@@ -26493,7 +26416,7 @@ var maxDeqSize$1 = 1; // number of eles to dequeue and render at higher texture 
 
 var invalidThreshold = 250; // time threshold for disabling b/c of invalidations
 
-var maxLayerArea = 4000 * 4000; // layers can't be bigger than this
+var maxLayerArea = 10000 * 10000; // layers can't be bigger than this
 
 var useHighQualityEleTxrReqs = true; // whether to use high quality ele txr requests (generally faster and cheaper in the longterm)
 // var log = function(){ console.log.apply( console, arguments ); };
@@ -26504,6 +26427,7 @@ var LayeredTextureCache = function LayeredTextureCache(renderer) {
   var cy = r.cy;
   self.layersByLevel = {}; // e.g. 2 => [ layer1, layer2, ..., layerN ]
 
+  self.bb = null;
   self.firstGet = true;
   self.lastInvalidationTime = performanceNow() - 2 * invalidThreshold;
   self.skipping = false;
@@ -26582,7 +26506,6 @@ LTCp.getLayers = function (eles, pxRatio, lvl) {
   var layersByLvl = self.layersByLevel;
   var scale = Math.pow(2, lvl);
   var layers = layersByLvl[lvl] = layersByLvl[lvl] || [];
-  var bb;
   var lvlComplete = self.levelIsComplete(lvl, eles);
   var tmpLayers;
 
@@ -26629,22 +26552,22 @@ LTCp.getLayers = function (eles, pxRatio, lvl) {
     return layers;
   }
 
-  var getBb = function getBb() {
-    if (!bb) {
-      bb = makeBoundingBox();
-
-      for (var i = 0; i < eles.length; i++) {
-        updateBoundingBox(bb, eles[i].boundingBox());
-      }
+  function getBb() {
+    if (!self.bb) {
+      self.bb = makeBoundingBox();
     }
 
-    return bb;
-  };
+    for (var i = 0; i < eles.length; i++) {
+      updateBoundingBox(self.bb, eles[i].boundingBox());
+    }
+
+    return self.bb;
+  }
 
   var makeLayer = function makeLayer(opts) {
     opts = opts || {};
     var after = opts.after;
-    getBb();
+    var bb = getBb();
     var area = bb.w * scale * (bb.h * scale);
 
     if (area > maxLayerArea) {
@@ -27269,6 +27192,17 @@ var getTargetLabelRotation = function getTargetLabelRotation(r, ele) {
   return r.getTextAngle(ele, 'target');
 };
 
+var EXTENT_PADDING = 150;
+
+function isPosInExtent(pos, extent) {
+  return extent.x1 - EXTENT_PADDING <= pos.x && pos.x <= extent.x2 + EXTENT_PADDING && extent.y1 - EXTENT_PADDING <= pos.y && pos.y <= extent.y2 + EXTENT_PADDING;
+}
+
+function isElementInExtent(ele, extent) {
+  if (!ele.isNode()) return true;
+  return isPosInExtent(ele.position(), extent);
+}
+
 CRp$1.drawCachedElement = function (context, ele, pxRatio, extent, lvl, requestHighQuality) {
   var r = this;
   var _r$data = r.data,
@@ -27276,14 +27210,13 @@ CRp$1.drawCachedElement = function (context, ele, pxRatio, extent, lvl, requestH
       lblTxrCache = _r$data.lblTxrCache,
       slbTxrCache = _r$data.slbTxrCache,
       tlbTxrCache = _r$data.tlbTxrCache;
-  var bb = ele.boundingBox();
   var reason = requestHighQuality === true ? eleTxrCache.reasons.highQuality : null;
 
-  if (bb.w === 0 || bb.h === 0 || !ele.visible()) {
+  if (!ele.visible()) {
     return;
   }
 
-  if (!extent || boundingBoxesIntersect(bb, extent)) {
+  if (!extent || isElementInExtent(ele, extent)) {
     r.drawCachedElementPortion(context, ele, eleTxrCache, pxRatio, lvl, reason, getZeroRotation);
     r.drawCachedElementPortion(context, ele, lblTxrCache, pxRatio, lvl, reason, getLabelRotation);
 
@@ -29485,6 +29418,7 @@ CRp$9.nodeShapeImpl = function (name, context, centerX, centerY, width, height, 
   }
 };
 
+function _typeof$4(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$4 = function _typeof(obj) { return typeof obj; }; } else { _typeof$4 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$4(obj); }
 var CR = CanvasRenderer;
 var CRp$a = CanvasRenderer.prototype;
 CRp$a.CANVAS_LAYERS = 3; //
@@ -29816,7 +29750,7 @@ CRp$a.getImgSmoothing = function (context) {
 CRp$a.makeOffscreenCanvas = function (width, height) {
   var canvas;
 
-  if ((typeof OffscreenCanvas === "undefined" ? "undefined" : _typeof(OffscreenCanvas)) !== ("undefined")) {
+  if ((typeof OffscreenCanvas === "undefined" ? "undefined" : _typeof$4(OffscreenCanvas)) !== ("undefined")) {
     canvas = new OffscreenCanvas(width, height);
   } else {
     canvas = document.createElement('canvas'); // eslint-disable-line no-undef
@@ -30067,16 +30001,16 @@ var extension = function extension() {
     return getExtension.apply(null, arguments);
   } // e.g. extension('renderer', 'svg', { ... })
   else if (arguments.length === 3) {
-      return setExtension.apply(null, arguments);
-    } // e.g. extension('renderer', 'svg', 'nodeShape', 'ellipse')
-    else if (arguments.length === 4) {
-        return getModule.apply(null, arguments);
-      } // e.g. extension('renderer', 'svg', 'nodeShape', 'ellipse', { ... })
-      else if (arguments.length === 5) {
-          return setModule.apply(null, arguments);
-        } else {
-          error('Invalid extension access syntax');
-        }
+    return setExtension.apply(null, arguments);
+  } // e.g. extension('renderer', 'svg', 'nodeShape', 'ellipse')
+  else if (arguments.length === 4) {
+    return getModule.apply(null, arguments);
+  } // e.g. extension('renderer', 'svg', 'nodeShape', 'ellipse', { ... })
+  else if (arguments.length === 5) {
+    return setModule.apply(null, arguments);
+  } else {
+    error('Invalid extension access syntax');
+  }
 }; // allows a core instance to access extensions internally
 
 
@@ -30177,7 +30111,7 @@ sheetfn.appendToStyle = function (style$$1) {
   return style$$1;
 };
 
-var version = "3.3.6";
+var version = "3.19.1-sm";
 
 var cytoscape = function cytoscape(options) {
   // if no options specified, use default
@@ -30190,8 +30124,8 @@ var cytoscape = function cytoscape(options) {
     return new Core(options);
   } // allow for registration of extensions
   else if (string(options)) {
-      return extension.apply(extension, arguments);
-    }
+    return extension.apply(extension, arguments);
+  }
 }; // e.g. cytoscape.use( require('cytoscape-foo'), bar )
 
 

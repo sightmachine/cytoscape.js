@@ -71,8 +71,8 @@ const configs = [
       replace(envVariables),
       license(licenseHeaderOptions),
       uglify({
+        warnings: false,
         compress: {
-          warnings: false,
           drop_console: false
         }
       })
