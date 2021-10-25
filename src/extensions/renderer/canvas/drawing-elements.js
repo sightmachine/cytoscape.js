@@ -102,21 +102,34 @@ const getTargetLabelRotation = (r, ele) => r.getTextAngle(ele, 'target');
 const getOpacity = (r, ele) => ele.effectiveOpacity();
 const getTextOpacity = (e, ele) => ele.pstyle('text-opacity').pfValue * ele.effectiveOpacity();
 
+const EXTENT_PADDING = 150;
+function isPosInExtent(pos, extent) {
+  return (
+    (extent.x1 - EXTENT_PADDING) <= pos.x &&
+    (pos.x <= extent.x2 + EXTENT_PADDING) &&
+    (extent.y1 - EXTENT_PADDING) <= pos.y) &&
+    (pos.y <= extent.y2 + EXTENT_PADDING);
+}
+
+function isElementInExtent(ele, extent) {
+  if (!ele.isNode()) return true;
+  return isPosInExtent(ele.position(), extent);
+}
+
 CRp.drawCachedElement = function( context, ele, pxRatio, extent, lvl, requestHighQuality ){
   let r = this;
   let { eleTxrCache, lblTxrCache, slbTxrCache, tlbTxrCache } = r.data;
 
-  let bb = ele.boundingBox();
   let reason = requestHighQuality === true ? eleTxrCache.reasons.highQuality : null;
 
-  if( bb.w === 0 || bb.h === 0 || !ele.visible() ){ return; }
+  if(!ele.visible() ){ return; }
 
-  if( !extent || math.boundingBoxesIntersect( bb, extent ) ){
+  if( !extent || isElementInExtent(ele, extent) ){
     let isEdge = ele.isEdge();
     let badLine = ele.element()._private.rscratch.badLine;
 
     r.drawElementUnderlay( context, ele );
-
+    
     r.drawCachedElementPortion( context, ele, eleTxrCache, pxRatio, lvl, reason, getZeroRotation, getOpacity );
     
     if( !isEdge || !badLine ){
