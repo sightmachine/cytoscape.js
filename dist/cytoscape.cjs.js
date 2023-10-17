@@ -8675,8 +8675,10 @@ elesfn$j.updateCompoundBounds = function () {
       return;
     }
 
-    var _p = parent._private;
-    var children = parent.children();
+    var _p = parent._private; // Selector will be undefined if childrenSelectorForBounds is not added to the node, this will result in all children being used to set compute bounds
+
+    var childrenSelectorForBounds = parent.data('childrenSelectorForBounds');
+    var children = parent.children(childrenSelectorForBounds);
     var includeLabels = parent.pstyle('compound-sizing-wrt-labels').value === 'include';
     var min = {
       width: {
@@ -30812,7 +30814,7 @@ sheetfn.appendToStyle = function (style) {
   return style;
 };
 
-var version = "3.7.7-sm";
+var version = "3.7.8-sm";
 
 var cytoscape = function cytoscape(options) {
   // if no options specified, use default
