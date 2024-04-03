@@ -109,7 +109,7 @@ BRp.load = function(){
     return e.shiftKey || e.metaKey || e.ctrlKey; // maybe e.altKey
   };
 
-  var allowPanningPassthrough = function( down, downs ){
+  var allowPanningPassthroughDefault=function( down, downs ){
     var allowPassthrough = true;
 
     if( r.cy.hasCompoundNodes() && down && down.pannable() ){
@@ -127,6 +127,12 @@ BRp.load = function(){
     }
 
     return allowPassthrough;
+  };
+
+
+  var allowPanningPassthrough = function( down, downs ){
+    const { allowPanningPassthrough = allowPanningPassthroughDefault } = (r.cy.options().overrides || {});
+    return allowPanningPassthrough(down, downs);
   };
 
   var setGrabbed = function( ele ){

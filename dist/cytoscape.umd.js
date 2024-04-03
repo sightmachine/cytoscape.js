@@ -24282,7 +24282,7 @@
       return e.shiftKey || e.metaKey || e.ctrlKey; // maybe e.altKey
     };
 
-    var allowPanningPassthrough = function allowPanningPassthrough(down, downs) {
+    var allowPanningPassthroughDefault = function allowPanningPassthroughDefault(down, downs) {
       var allowPassthrough = true;
 
       if (r.cy.hasCompoundNodes() && down && down.pannable()) {
@@ -24300,6 +24300,14 @@
       }
 
       return allowPassthrough;
+    };
+
+    var allowPanningPassthrough = function allowPanningPassthrough(down, downs) {
+      var _ref = r.cy.options().overrides || {},
+          _ref$allowPanningPass = _ref.allowPanningPassthrough,
+          allowPanningPassthrough = _ref$allowPanningPass === void 0 ? allowPanningPassthroughDefault : _ref$allowPanningPass;
+
+      return allowPanningPassthrough(down, downs);
     };
 
     var setGrabbed = function setGrabbed(ele) {
@@ -31573,7 +31581,7 @@
     return style;
   };
 
-  var version = "3.7.8-sm";
+  var version = "3.7.9-sm";
 
   var cytoscape = function cytoscape(options) {
     // if no options specified, use default
