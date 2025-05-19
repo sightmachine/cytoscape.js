@@ -61,7 +61,9 @@ elesfn.updateCompoundBounds = function(force = false){
     if( !parent.isParent() ){ return; }
 
     let _p = parent._private;
-    let children = parent.children();
+    // Selector will be undefined if childrenSelectorForBounds is not added to the node, this will result in all children being used to set compute bounds
+    const childrenSelectorForBounds = parent.data('childrenSelectorForBounds');
+    let children = parent.children(childrenSelectorForBounds);
     let includeLabels = parent.pstyle( 'compound-sizing-wrt-labels' ).value === 'include';
 
     let min = {
