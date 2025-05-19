@@ -111,12 +111,14 @@ function isPosInExtent(pos, extent) {
     (pos.y <= extent.y2 + EXTENT_PADDING);
 }
 
-function isElementInExtent(ele, extent) {
+function isElementInExtentDefault(ele, extent) {
   if (!ele.isNode()) return true;
   return isPosInExtent(ele.position(), extent);
 }
 
 CRp.drawCachedElement = function( context, ele, pxRatio, extent, lvl, requestHighQuality ){
+  const { isElementInExtent = isElementInExtentDefault } = (ele.cy().options().overrides || {});
+
   let r = this;
   let { eleTxrCache, lblTxrCache, slbTxrCache, tlbTxrCache } = r.data;
 
