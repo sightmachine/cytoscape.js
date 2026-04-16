@@ -186,17 +186,19 @@ LTCp.getLayers = function( eles, pxRatio, lvl ){
   // SM customization: use self.bb (persistent across calls) instead of a local bb variable.
   // Also adds early-exit if the accumulated layer area exceeds maxLayerArea during incremental
   // bounding box computation, preventing massive texture allocation for very large graphs.
+  // The loop only runs when self.bb is null (first call or after invalidation).
   function getBb() {
     if( !self.bb ){
       self.bb = math.makeBoundingBox();
-    }
 
-    for( var i = 0; i < eles.length; i++ ){
-      var area = self.bb.w * scale * (self.bb.h * scale);
-      if (area > maxLayerArea) {
-        return null;
+      for( var i = 0; i < eles.length; i++ ){
+        var area = self.bb.w * scale * (self.bb.h * scale);
+        if (area > maxLayerArea) {
+          self.bb = null;
+          return null;
+        }
+        math.updateBoundingBox(self.bb, eles[i].boundingBox() );
       }
-      math.updateBoundingBox(self.bb, eles[i].boundingBox() );
     }
 
     return self.bb;
@@ -470,6 +472,9 @@ LTCp.invalidateLayer = function( layer ){
   this.lastInvalidationTime = util.performanceNow();
 
   if( layer.invalid ){ return; } // save cycles
+
+  // SM customization: clear persistent BB so it's recomputed on next getLayers() call
+  this.bb = null;
 
   var lvl = layer.level;
   var eles = layer.eles;
