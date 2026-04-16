@@ -29044,16 +29044,18 @@ var printLayoutInfo;
     // SM customization: use self.bb (persistent across calls) instead of a local bb variable.
     // Also adds early-exit if the accumulated layer area exceeds maxLayerArea during incremental
     // bounding box computation, preventing massive texture allocation for very large graphs.
+    // The loop only runs when self.bb is null (first call or after invalidation).
     function getBb() {
       if (!self.bb) {
         self.bb = makeBoundingBox();
-      }
-      for (var i = 0; i < eles.length; i++) {
-        var area = self.bb.w * scale * (self.bb.h * scale);
-        if (area > maxLayerArea) {
-          return null;
+        for (var i = 0; i < eles.length; i++) {
+          var area = self.bb.w * scale * (self.bb.h * scale);
+          if (area > maxLayerArea) {
+            self.bb = null;
+            return null;
+          }
+          updateBoundingBox(self.bb, eles[i].boundingBox());
         }
-        updateBoundingBox(self.bb, eles[i].boundingBox());
       }
       return self.bb;
     }
@@ -29302,6 +29304,8 @@ var printLayoutInfo;
       return;
     } // save cycles
 
+    // SM customization: clear persistent BB so it's recomputed on next getLayers() call
+    this.bb = null;
     var lvl = layer.level;
     var eles = layer.eles;
     var layers = this.layersByLevel[lvl];
