@@ -102,16 +102,37 @@ const getTargetLabelRotation = (r, ele) => r.getTextAngle(ele, 'target');
 const getOpacity = (r, ele) => ele.effectiveOpacity();
 const getTextOpacity = (e, ele) => ele.pstyle('text-opacity').pfValue * ele.effectiveOpacity();
 
+// SM customization: faster extent check using node position instead of full bounding box intersection.
+// Uses a padding of 150px to account for node size / labels near the viewport edge.
+const EXTENT_PADDING = 150;
+function isPosInExtent(pos, extent) {
+  return (
+    (extent.x1 - EXTENT_PADDING) <= pos.x &&
+    (pos.x <= extent.x2 + EXTENT_PADDING) &&
+    (extent.y1 - EXTENT_PADDING) <= pos.y) &&
+    (pos.y <= extent.y2 + EXTENT_PADDING);
+}
+
+// SM customization: default extent check for elements. Edges always pass (their endpoints
+// handle visibility). Nodes use the simpler position-based check for better pan/zoom perf.
+// Can be overridden via cy.options().overrides.isElementInExtent.
+function isElementInExtentDefault(ele, extent) {
+  if (!ele.isNode()) return true;
+  return isPosInExtent(ele.position(), extent);
+}
+
 CRp.drawCachedElement = function( context, ele, pxRatio, extent, lvl, requestHighQuality ){
+  // SM customization: allow overriding the extent check via cy.options().overrides.isElementInExtent
+  const { isElementInExtent = isElementInExtentDefault } = (ele.cy().options().overrides || {});
+
   let r = this;
   let { eleTxrCache, lblTxrCache, slbTxrCache, tlbTxrCache } = r.data;
 
-  let bb = ele.boundingBox();
   let reason = requestHighQuality === true ? eleTxrCache.reasons.highQuality : null;
 
-  if( bb.w === 0 || bb.h === 0 || !ele.visible() ){ return; }
+  if( !ele.visible() ){ return; }
 
-  if( !extent || math.boundingBoxesIntersect( bb, extent ) ){
+  if( !extent || isElementInExtent(ele, extent) ){
     let isEdge = ele.isEdge();
     let badLine = ele.element()._private.rscratch.badLine;
 

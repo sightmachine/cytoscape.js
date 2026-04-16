@@ -61,7 +61,11 @@ elesfn.updateCompoundBounds = function(force = false){
     if( !parent.isParent() ){ return; }
 
     let _p = parent._private;
-    let children = parent.children();
+    // SM customization: allow parent nodes to specify a selector that filters which children
+    // are used for compound bounds calculation via data('childrenSelectorForBounds').
+    // If not set, all children are used (default upstream behavior).
+    const childrenSelectorForBounds = parent.data('childrenSelectorForBounds');
+    let children = parent.children(childrenSelectorForBounds);
     let includeLabels = parent.pstyle( 'compound-sizing-wrt-labels' ).value === 'include';
 
     let min = {

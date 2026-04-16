@@ -11162,7 +11162,11 @@ elesfn$b.updateCompoundBounds = function () {
       return;
     }
     var _p = parent._private;
-    var children = parent.children();
+    // SM customization: allow parent nodes to specify a selector that filters which children
+    // are used for compound bounds calculation via data('childrenSelectorForBounds').
+    // If not set, all children are used (default upstream behavior).
+    var childrenSelectorForBounds = parent.data('childrenSelectorForBounds');
+    var children = parent.children(childrenSelectorForBounds);
     var includeLabels = parent.pstyle('compound-sizing-wrt-labels').value === 'include';
     var min = {
       width: {
@@ -25645,7 +25649,10 @@ BRp$3.load = function () {
   var isMultSelKeyDown = function isMultSelKeyDown(e) {
     return e.shiftKey || e.metaKey || e.ctrlKey; // maybe e.altKey
   };
-  var allowPanningPassthrough = function allowPanningPassthrough(down, downs) {
+
+  // SM customization: default panning passthrough logic extracted so it can be overridden
+  // via cy.options().overrides.allowPanningPassthrough to customize compound node panning behavior.
+  var allowPanningPassthroughDefault = function allowPanningPassthroughDefault(down, downs) {
     var allowPassthrough = true;
     if (r.cy.hasCompoundNodes() && down && down.pannable()) {
       // a grabbable compound node below the ele => no passthrough panning
@@ -25662,6 +25669,12 @@ BRp$3.load = function () {
       allowPassthrough = true;
     }
     return allowPassthrough;
+  };
+  var allowPanningPassthrough = function allowPanningPassthrough(down, downs) {
+    var _ref = r.cy.options().overrides || {},
+      _ref$allowPanningPass = _ref.allowPanningPassthrough,
+      allowPanningPassthrough = _ref$allowPanningPass === undefined ? allowPanningPassthroughDefault : _ref$allowPanningPass;
+    return allowPanningPassthrough(down, downs);
   };
   var setGrabbed = function setGrabbed(ele) {
     ele[0]._private.grabbed = true;
@@ -28890,7 +28903,9 @@ var deqNoDrawCost = 0.9; // % of avg frame time that can be used for dequeueing 
 var deqFastCost = 0.9; // % of frame time to be used when >60fps
 var maxDeqSize = 1; // number of eles to dequeue and render at higher texture in each batch
 var invalidThreshold = 250; // time threshold for disabling b/c of invalidations
-var maxLayerArea = 4000 * 4000; // layers can't be bigger than this
+// SM customization: increased from 4000*4000 to 10000*10000 to support larger graphs
+// without falling back to direct rendering (which is slower for complex scenes).
+var maxLayerArea = 10000 * 10000; // layers can't be bigger than this
 var maxLayerDim = 32767; // maximum size for the width/height of layer canvases
 var useHighQualityEleTxrReqs = true; // whether to use high quality ele txr requests (generally faster and cheaper in the longterm)
 
@@ -28902,6 +28917,9 @@ var LayeredTextureCache = function LayeredTextureCache(renderer) {
   var cy = r.cy;
   self.layersByLevel = {}; // e.g. 2 => [ layer1, layer2, ..., layerN ]
 
+  // SM customization: persist the bounding box across getLayers() calls so it doesn't
+  // need to be recomputed from scratch each time. Cleared on invalidation.
+  self.bb = null;
   self.firstGet = true;
   self.lastInvalidationTime = performanceNow() - 2 * invalidThreshold;
   self.skipping = false;
@@ -28978,7 +28996,6 @@ LTCp.getLayers = function (eles, pxRatio, lvl) {
   var layersByLvl = self.layersByLevel;
   var scale = Math.pow(2, lvl);
   var layers = layersByLvl[lvl] = layersByLvl[lvl] || [];
-  var bb;
   var lvlComplete = self.levelIsComplete(lvl, eles);
   var tmpLayers;
   var checkTempLevels = function checkTempLevels() {
@@ -29019,19 +29036,28 @@ LTCp.getLayers = function (eles, pxRatio, lvl) {
     // log('level complete, using existing layers\n--');
     return layers;
   }
-  var getBb = function getBb() {
-    if (!bb) {
-      bb = makeBoundingBox();
-      for (var i = 0; i < eles.length; i++) {
-        updateBoundingBox(bb, eles[i].boundingBox());
-      }
+
+  // SM customization: use self.bb (persistent across calls) instead of a local bb variable.
+  // Also adds early-exit if the accumulated layer area exceeds maxLayerArea during incremental
+  // bounding box computation, preventing massive texture allocation for very large graphs.
+  function getBb() {
+    if (!self.bb) {
+      self.bb = makeBoundingBox();
     }
-    return bb;
-  };
+    for (var i = 0; i < eles.length; i++) {
+      var area = self.bb.w * scale * (self.bb.h * scale);
+      if (area > maxLayerArea) {
+        return null;
+      }
+      updateBoundingBox(self.bb, eles[i].boundingBox());
+    }
+    return self.bb;
+  }
   var makeLayer = function makeLayer(opts) {
     opts = opts || {};
     var after = opts.after;
-    getBb();
+    var bb = getBb();
+    if (!bb) return null;
     var w = Math.ceil(bb.w * scale);
     var h = Math.ceil(bb.h * scale);
     if (w > maxLayerDim || h > maxLayerDim) {
@@ -29619,19 +29645,37 @@ var getOpacity = function getOpacity(r, ele) {
 var getTextOpacity = function getTextOpacity(e, ele) {
   return ele.pstyle('text-opacity').pfValue * ele.effectiveOpacity();
 };
+
+// SM customization: faster extent check using node position instead of full bounding box intersection.
+// Uses a padding of 150px to account for node size / labels near the viewport edge.
+var EXTENT_PADDING = 150;
+function isPosInExtent(pos, extent) {
+  return extent.x1 - EXTENT_PADDING <= pos.x && pos.x <= extent.x2 + EXTENT_PADDING && extent.y1 - EXTENT_PADDING <= pos.y && pos.y <= extent.y2 + EXTENT_PADDING;
+}
+
+// SM customization: default extent check for elements. Edges always pass (their endpoints
+// handle visibility). Nodes use the simpler position-based check for better pan/zoom perf.
+// Can be overridden via cy.options().overrides.isElementInExtent.
+function isElementInExtentDefault(ele, extent) {
+  if (!ele.isNode()) return true;
+  return isPosInExtent(ele.position(), extent);
+}
 CRp$a.drawCachedElement = function (context, ele, pxRatio, extent, lvl, requestHighQuality) {
+  // SM customization: allow overriding the extent check via cy.options().overrides.isElementInExtent
+  var _ref = ele.cy().options().overrides || {},
+    _ref$isElementInExten = _ref.isElementInExtent,
+    isElementInExtent = _ref$isElementInExten === undefined ? isElementInExtentDefault : _ref$isElementInExten;
   var r = this;
   var _r$data = r.data,
     eleTxrCache = _r$data.eleTxrCache,
     lblTxrCache = _r$data.lblTxrCache,
     slbTxrCache = _r$data.slbTxrCache,
     tlbTxrCache = _r$data.tlbTxrCache;
-  var bb = ele.boundingBox();
   var reason = requestHighQuality === true ? eleTxrCache.reasons.highQuality : null;
-  if (bb.w === 0 || bb.h === 0 || !ele.visible()) {
+  if (!ele.visible()) {
     return;
   }
-  if (!extent || boundingBoxesIntersect(bb, extent)) {
+  if (!extent || isElementInExtent(ele, extent)) {
     var isEdge = ele.isEdge();
     var badLine = ele.element()._private.rscratch.badLine;
     r.drawElementUnderlay(context, ele);
@@ -35552,7 +35596,7 @@ sheetfn.appendToStyle = function (style) {
   return style;
 };
 
-var version = "3.33.2";
+var version = "snapshot";
 
 var cytoscape = function cytoscape(options) {
   // if no options specified, use default
