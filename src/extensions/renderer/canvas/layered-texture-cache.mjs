@@ -17,9 +17,7 @@ var deqNoDrawCost = 0.9; // % of avg frame time that can be used for dequeueing 
 var deqFastCost = 0.9; // % of frame time to be used when >60fps
 var maxDeqSize = 1; // number of eles to dequeue and render at higher texture in each batch
 var invalidThreshold = 250; // time threshold for disabling b/c of invalidations
-// SM customization: increased from 4000*4000 to 10000*10000 to support larger graphs
-// without falling back to direct rendering (which is slower for complex scenes).
-var maxLayerArea = 10000 * 10000; // layers can't be bigger than this
+var maxLayerArea = 4000 * 4000; // layers can't be bigger than this
 var maxLayerDim = 32767; // maximum size for the width/height of layer canvases
 var alwaysQueue = true; // never draw all the layers in a level on a frame; draw directly until all dequeued
 var useHighQualityEleTxrReqs = true; // whether to use high quality ele txr requests (generally faster and cheaper in the longterm)
@@ -34,10 +32,6 @@ var LayeredTextureCache = function( renderer ){
   var cy = r.cy;
 
   self.layersByLevel = {}; // e.g. 2 => [ layer1, layer2, ..., layerN ]
-
-  // SM customization: persist the bounding box across getLayers() calls so it doesn't
-  // need to be recomputed from scratch each time. Cleared on invalidation.
-  self.bb = null;
 
   self.firstGet = true;
 
@@ -183,34 +177,24 @@ LTCp.getLayers = function( eles, pxRatio, lvl ){
     return layers;
   }
 
-  // SM customization: use self.bb (persistent across calls) instead of a local bb variable.
-  // Also adds early-exit if the accumulated layer area exceeds maxLayerArea during incremental
-  // bounding box computation, preventing massive texture allocation for very large graphs.
-  // The loop only runs when self.bb is null (first call or after invalidation).
-  function getBb() {
-    if( !self.bb ){
-      self.bb = math.makeBoundingBox();
+  var getBb = function(){
+    if( !bb ){
+      bb = math.makeBoundingBox();
 
       for( var i = 0; i < eles.length; i++ ){
-        var area = self.bb.w * scale * (self.bb.h * scale);
-        if (area > maxLayerArea) {
-          self.bb = null;
-          return null;
-        }
-        math.updateBoundingBox(self.bb, eles[i].boundingBox() );
+        math.updateBoundingBox( bb, eles[i].boundingBox() );
       }
     }
 
-    return self.bb;
-  }
+    return bb;
+  };
 
   var makeLayer = function( opts ){
     opts = opts || {};
 
     var after = opts.after;
 
-    const bb = getBb();
-    if (!bb) return null;
+    getBb();
 
     var w = Math.ceil( bb.w * scale );
     var h = Math.ceil( bb.h * scale );
@@ -472,9 +456,6 @@ LTCp.invalidateLayer = function( layer ){
   this.lastInvalidationTime = util.performanceNow();
 
   if( layer.invalid ){ return; } // save cycles
-
-  // SM customization: clear persistent BB so it's recomputed on next getLayers() call
-  this.bb = null;
 
   var lvl = layer.level;
   var eles = layer.eles;
