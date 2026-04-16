@@ -905,6 +905,20 @@ elesfn.boundingBox = function( options ){
 
   let useCache = (options === undefined || options.useCache === undefined || options.useCache === true);
 
+  // SM customization: fast path for single-element cache hit avoids memoize overhead.
+  // The memoize closure + cache object allocation per call is expensive in the hot render path.
+  if (useCache && this.length === 1) {
+    let _p = this[0]._private;
+    if (_p.bbCache != null && !_p.styleDirty && _p.bbCachePosKey === getBoundingBoxPosKey(this[0])) {
+      if (options === undefined) {
+        options = defBbOpts;
+      } else {
+        options = filledBbOpts( options );
+      }
+      return cachedBoundingBoxImpl(this[0], options);
+    }
+  }
+
   let isDirty = memoize(ele => {
     let _p = ele._private;
 
